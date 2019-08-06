@@ -45,7 +45,7 @@ export default function CreateDeliverable() {
                     </Form.Text>
                 </Form.Group>
 
-                <Button type="submit" bg="primary">Submit</Button>
+                <Button type="submit" bg="primary" className="mb-2">Submit</Button>
             </Form>
         </Container>
 

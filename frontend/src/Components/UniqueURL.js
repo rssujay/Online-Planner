@@ -10,7 +10,12 @@ export default function UniqueURL() {
     const {id, setId} = useContext(UserContext);
     const {setDeliverables} = useContext(DeliverablesContext);
 
-    if (localStorage.getItem("uniqueid") != null){
+    if (window.location.pathname !== "/"){
+        short_id = window.location.pathname.substr(1,9);
+        localStorage.setItem("uniqueid", short_id);
+    }
+
+    else if (localStorage.getItem("uniqueid") != null){
         short_id = localStorage.getItem("uniqueid");
         setId(short_id);
     }
@@ -19,6 +24,8 @@ export default function UniqueURL() {
         setId(short_id);
         localStorage.setItem("uniqueid", short_id);
     }
+
+    console.log(short_id);
 
     useEffect(() => {
         axios.get(`/api/getUser/${short_id}`)
@@ -29,7 +36,7 @@ export default function UniqueURL() {
 
     return (
         <Container>
-            <p style={{fontWeight:"600"}}>{window.location.href}{id}</p>
+            <p style={{fontWeight:"600"}}>{window.location.origin}/{short_id}</p>
             <p>Use this URL to access your entries in the future.</p>
         </Container>
     )

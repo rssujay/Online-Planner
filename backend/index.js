@@ -1,7 +1,13 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 8000;
+
+const mongoDB = require('./credentials');
+let db = mongoose.connect(mongoDB, { useNewUrlParser: true })
+    .then(res => console.log("Connected to DB"))
+    .catch(err => console.log(err));
 
 const stuff = [
     {
@@ -23,6 +29,10 @@ const stuff = [
         due: "19/12/1912"
     }
 ];
+
+app.get('/:userId', (req, res) => {
+    res.sendFile(path.join(__dirname,"../frontend/build/index.html"));
+})
 
 app.get('/api/getUser/:userId/', (req, res) => {
     if (req.params.userId === 'pasd1iDaj'){

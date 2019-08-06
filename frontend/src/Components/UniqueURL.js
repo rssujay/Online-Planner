@@ -7,12 +7,13 @@ import { UserContext } from '../Contexts/UserContext';
 
 export default function UniqueURL() {
     let short_id = "";
-    const {id, setId} = useContext(UserContext);
+    const {setId} = useContext(UserContext);
     const {setDeliverables} = useContext(DeliverablesContext);
 
     if (window.location.pathname !== "/"){
         short_id = window.location.pathname.substr(1,9);
         localStorage.setItem("uniqueid", short_id);
+        setId(short_id);
     }
 
     else if (localStorage.getItem("uniqueid") != null){
@@ -24,8 +25,6 @@ export default function UniqueURL() {
         setId(short_id);
         localStorage.setItem("uniqueid", short_id);
     }
-
-    console.log(short_id);
 
     useEffect(() => {
         axios.get(`/api/getUser/${short_id}`)

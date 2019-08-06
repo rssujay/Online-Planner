@@ -7,10 +7,16 @@ import { UserContext } from '../Contexts/UserContext';
 
 export default function UniqueURL() {
     let short_id = "";
-    const {id, setId} = useContext(UserContext);
+    const {setId} = useContext(UserContext);
     const {setDeliverables} = useContext(DeliverablesContext);
 
-    if (localStorage.getItem("uniqueid") != null){
+    if (window.location.pathname !== "/"){
+        short_id = window.location.pathname.substr(1,9);
+        localStorage.setItem("uniqueid", short_id);
+        setId(short_id);
+    }
+
+    else if (localStorage.getItem("uniqueid") != null){
         short_id = localStorage.getItem("uniqueid");
         setId(short_id);
     }
@@ -29,7 +35,7 @@ export default function UniqueURL() {
 
     return (
         <Container>
-            <p style={{fontWeight:"600"}}>{window.location.href}{id}</p>
+            <p style={{fontWeight:"600"}}>{window.location.origin}/{short_id}</p>
             <p>Use this URL to access your entries in the future.</p>
         </Container>
     )

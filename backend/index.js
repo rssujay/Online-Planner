@@ -1,7 +1,15 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const path = require('path');
+const {User} = require('./models/User');
+
 const app = express();
 const PORT = process.env.PORT || 8000;
+
+const mongoDB = require('./credentials');
+let db = mongoose.connect(mongoDB, { useNewUrlParser: true })
+    .then(res => console.log("Connected to DB"))
+    .catch(err => console.log(err));
 
 const stuff = [
     {
@@ -24,9 +32,27 @@ const stuff = [
     }
 ];
 
+app.get('/:userId', (req, res) => {
+    res.sendFile(path.join(__dirname,"../frontend/build/index.html"));
+})
+
 app.get('/api/getUser/:userId/', (req, res) => {
-    if (req.params.userId === 'pasd1iDaj'){
-        res.json(stuff);
+    if (req.params.userId){
+        User.findOne({"id" : req.params.userId}, (err, results) => {
+            if (err){
+                console.log(err);
+            }
+            else if (results) {
+                res.json(results.items);
+            }
+            else {
+                const newUser = new User({
+                    id: req.params.userId,
+                    items: []
+                });
+                newUser.save().then(user => res.json(user.items));
+            }
+        });
     }
     else{
         res.json([]);
@@ -35,14 +61,30 @@ app.get('/api/getUser/:userId/', (req, res) => {
 
 app.use(express.json());
 
-app.post('/api/addItem/:userId', (req,res) => {
-    console.log(req.body);
-    res.send('Added');
+app.post('/api/addItem/:userId', (req,res) => {   
+    User.updateOne(
+        {"id" : req.params.userId},
+        { $push: {"items": {
+            id: req.body.id,
+            name: req.body.name,
+            description: req.body.description,
+            due: req.body.due
+        }}},
+        (err,doc) => {
+            console.log(err);
+            res.send('Added');
+        });
 });
 
 app.post('/api/removeItem/:userId', (req,res) => {
-    console.log(req.body);
-    res.send('Removed');
+    User.updateOne(
+        {"id": req.params.userId},
+        { $pull: {items : {id : req.body.id}}},
+        (err,doc) => {
+            console.log(err);
+            res.send('Removed');
+        }
+    )
 });
 
 app.use(express.static(path.join(__dirname,"../frontend/build")));

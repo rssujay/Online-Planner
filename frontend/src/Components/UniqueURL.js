@@ -1,21 +1,35 @@
-import React from 'react';
+import React, {useEffect, useContext} from 'react';
 import Container from 'react-bootstrap/Container';
 import shortid from 'shortid';
+import axios from 'axios';
+import { DeliverablesContext } from '../Contexts/DeliverablesContext';
+import { UserContext } from '../Contexts/UserContext';
 
 export default function UniqueURL() {
     let short_id = "";
+    const {id, setId} = useContext(UserContext);
+    const {setDeliverables} = useContext(DeliverablesContext);
 
     if (localStorage.getItem("uniqueid") != null){
         short_id = localStorage.getItem("uniqueid");
+        setId(short_id);
     }
     else {
         short_id = shortid.generate();
+        setId(short_id);
         localStorage.setItem("uniqueid", short_id);
     }
 
+    useEffect(() => {
+        axios.get(`/api/getUser/${short_id}`)
+        .then((res) => {
+            setDeliverables(res.data);
+        })
+    }, [short_id, setDeliverables]);
+
     return (
         <Container>
-            <p style={{fontWeight:"600"}}>{window.location.href}/{short_id}</p>
+            <p style={{fontWeight:"600"}}>{window.location.href}{id}</p>
             <p>Use this URL to access your entries in the future.</p>
         </Container>
     )

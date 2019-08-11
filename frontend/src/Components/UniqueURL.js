@@ -1,9 +1,10 @@
 import React, {useEffect, useContext} from 'react';
-import Container from 'react-bootstrap/Container';
 import shortid from 'shortid';
 import axios from 'axios';
 import { DeliverablesContext } from '../Contexts/DeliverablesContext';
 import { UserContext } from '../Contexts/UserContext';
+import Container from "@material-ui/core/Container"
+import { Typography } from '@material-ui/core';
 
 export default function UniqueURL() {
     let short_id = "";
@@ -35,8 +36,8 @@ export default function UniqueURL() {
 
     return (
         <Container>
-            <p style={{fontWeight:"600"}}>{window.location.origin}/{short_id}</p>
-            <p>Use this URL to access your entries in the future.</p>
+            <hr/>
+          <Typography variant="p"><h4>{window.location.origin}/${short_id}</h4> to access your entries in the future.</Typography>
         </Container>
     )
 }

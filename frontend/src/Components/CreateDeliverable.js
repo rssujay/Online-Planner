@@ -41,7 +41,7 @@ export default function CreateDeliverable() {
                 <Form.Group>
                     <Form.Control type="date" id="due" onChange={handleChange}/>
                     <Form.Text className="text-muted text-left">
-                        The above date will be reflected as the date of submission.
+                        The above date will be reflected as the due date.
                     </Form.Text>
                 </Form.Group>
 

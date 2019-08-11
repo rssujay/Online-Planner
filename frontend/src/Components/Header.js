@@ -1,13 +1,19 @@
 import React from 'react'
-import Navbar from 'react-bootstrap/Navbar'
+import AppBar from '@material-ui/core/AppBar'
+import Typography from '@material-ui/core/Typography';
+import Toolbar from '@material-ui/core/Toolbar';
 
 export default function Header() {
     return (
-        <header style={{backgroundColor:"#333"}}>
-            <Navbar variant="dark">
-                <Navbar.Brand>Todo Planner</Navbar.Brand>
-            </Navbar>
-            <p className="text-left pb-2 mx-3" style={{color:"#AAA"}}>Deadline management made easier</p>
+        <header>
+            <AppBar position="static">
+                <Toolbar style={{backgroundColor:"#8AAAFF"}}>
+                    <Typography variant="h3">Todo List</Typography> 
+                </Toolbar>
+                <Toolbar variant="dense" style={{backgroundColor:"#6699FF"}}>
+                    <Typography variant="p">Deadline management made easier</Typography>  
+                </Toolbar>
+            </AppBar>          
         </header>
     )
 }

@@ -37,7 +37,7 @@ export default function UniqueURL() {
     return (
         <Container>
             <hr/>
-          <Typography variant="p"><h4>{window.location.origin}/${short_id}</h4> to access your entries in the future.</Typography>
+          <Typography variant="body1"><a href={`${window.location.origin}/${short_id}`}>{window.location.origin}/${short_id}</a> to access your entries in the future.</Typography>
         </Container>
     )
 }

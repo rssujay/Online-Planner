@@ -5,18 +5,21 @@ import Button from '@material-ui/core/Button';
 import { DeliverablesContext } from '../Contexts/DeliverablesContext';
 import { CardContent, Typography } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
+import {parse, startOfToday, differenceInDays} from 'date-fns';
 
 export default function Deliverable(props) {
     const {removeDeliverable} = useContext(DeliverablesContext);
     const {id, name, description, due} = props.deliverable;
+    const fullDaysLeft = differenceInDays(parse(due),startOfToday());
 
     return (
         <Card style={{padding:"1rem"}}>
             <CardContent>
             <Typography gutterBottom variant="h5" component="h2">{name}</Typography>
-                <Typography variant="h6">Due on: {due}</Typography>
+                <Typography variant="h6">Due on: {parse(due).toLocaleDateString()}</Typography>
+                <Typography variant="body1" style={{color:"blue"}}>{fullDaysLeft} {fullDaysLeft === 1? "day left" : "days left"}</Typography>
                 <Paper style={{margin:"1em",padding:"0.5em"}}>
-                    <Typography variant="p">{description}</Typography>
+                    <Typography variant="body1">{description}</Typography>
                 </Paper>
             </CardContent>              
                 <hr/>

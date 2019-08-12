@@ -11,7 +11,7 @@ export default function Header() {
                     <Typography variant="h3">Todo List</Typography> 
                 </Toolbar>
                 <Toolbar variant="dense" style={{backgroundColor:"#6699FF"}}>
-                    <Typography variant="p">Deadline management made easier</Typography>  
+                    <Typography variant="body1">Deadline management made easier</Typography>  
                 </Toolbar>
             </AppBar>          
         </header>

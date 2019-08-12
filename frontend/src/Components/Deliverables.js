@@ -9,12 +9,15 @@ import Typography from '@material-ui/core/Typography';
 
 export default function Deliverables() {
     const {deliverables} = useContext(DeliverablesContext);
+    deliverables.sort((a,b) => {
+        return a.due > b.due;
+    })
 
     return (
         <Box p="1rem">
         <Container style={{backgroundColor:"#555", minHeight:"50vh", padding:"1rem"}}>
-            <Typography variant="h4" style={{color:"#fff",textTransform:"uppercase"}}>{deliverables.length > 0? deliverables.length > 1 ? `${deliverables.length} things left` : "Just one thing left" :""}</Typography>
-            <Typography m={2} variant="p" className="text-left mx-3" style={{color:"#fff"}}>{deliverables.length > 0?"": `It appears you have nothing left to do :)`}</Typography>
+            <Typography variant="h4" style={{color:"#fff",textTransform:"uppercase"}}>{deliverables.length > 0? deliverables.length > 1 ? `${deliverables.length} things due` : "Just one thing due" :""}</Typography>
+            <Typography m={2} variant="body1" className="text-left mx-3" style={{color:"#fff"}}>{deliverables.length > 0?"": `It appears you have nothing left to do :)`}</Typography>
             <Grid container spacing={2}>         
                 {deliverables.map((deliverable) => (
                     <Grid item xs={12} lg={4} md={6} >
